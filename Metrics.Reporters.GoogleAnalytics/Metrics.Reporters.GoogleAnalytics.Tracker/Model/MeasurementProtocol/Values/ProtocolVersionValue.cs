@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol.Values
 {
-    public class ProtocolVersionValue : ParameterTextValue
+    public static class ProtocolVersionValue
     {
-        public ProtocolVersionValue() : base("1", ASCIIEncoding.Unicode.GetByteCount("1"))
-        {
-        }
+        public static ParameterTextValue Version = new ParameterTextValue("1", ASCIIEncoding.Unicode.GetByteCount("1"));
     }
 }

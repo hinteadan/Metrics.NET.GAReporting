@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\MeasurementProtocol\HttpProtocol.cs" />
+    <Compile Include="Model\MeasurementProtocol\HttpsProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\Parameter.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterBooleanValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterCurrencyValue.cs" />
@@ -47,6 +49,7 @@
     <Compile Include="Model\MeasurementProtocol\ParameterName.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterTextValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Protocol.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\ApplicationIdValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\ApplicationInstallerIdValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\ApplicationNameValue.cs" />
