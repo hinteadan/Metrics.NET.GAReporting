@@ -21,7 +21,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             return base.ToStringForPayload();
         }
 
-        private void ValidateValue()
+        protected virtual void ValidateValue()
         {
             if (ASCIIEncoding.Unicode.GetByteCount(this.value) > this.length)
             {

@@ -40,12 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\MeasurementProtocol\Parameter.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterBooleanValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterCurrencyValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterIntegerValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterName.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterTextValue.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ApplicationIdValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ApplicationInstallerIdValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ApplicationNameValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ApplicationVersionValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\CustomDimentionValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\DocumentHostNameValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\DocumentLocationValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\DocumentPathValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\DocumentReferrerValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\DocumentTitleValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\EventActionValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\EventCategoryValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\EventLabelValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ExceptionDescriptionValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\HitTypeValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ProtocolVersionValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\ScreenNameValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\SystemInfoValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\SessionControlValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\Values\TrackingIdValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
