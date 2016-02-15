@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Metrics.Reporters.GoogleAnalytics.Tracker\Metrics.Reporters.GoogleAnalytics.Tracker.csproj">
+      <Project>{4efbcaee-3067-4f48-8a65-65e7161ef58b}</Project>
+      <Name>Metrics.Reporters.GoogleAnalytics.Tracker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Metrics.Reporters.GoogleAnalytics\Metrics.Reporters.GoogleAnalytics.csproj">
       <Project>{7a270a55-55c3-490d-97de-fd566d9ffd42}</Project>
       <Name>Metrics.Reporters.GoogleAnalytics</Name>

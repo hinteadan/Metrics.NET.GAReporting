@@ -21,6 +21,16 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 
         protected readonly Dictionary<string, Parameter> parameters;
 
+        public static Protocol Http(string trackingId, string clientId)
+        {
+            return new HttpProtocol(trackingId, clientId);
+        }
+
+        public static Protocol Https(string trackingId, string clientId)
+        {
+            return new HttpsProtocol(trackingId, clientId);
+        }
+
         protected Protocol(string url, string trackingId, string clientId)
         {
             this.baseUrl = new Uri(url);

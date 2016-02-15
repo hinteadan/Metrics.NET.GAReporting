@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 {
-    public class HttpsProtocol : Protocol
+    internal class HttpsProtocol : Protocol
     {
-        protected HttpsProtocol(string trackingId, string clientId) : base(Protocol.googleHttpsUrl, trackingId, clientId)
+        public HttpsProtocol(string trackingId, string clientId) : base(Protocol.googleHttpsUrl, trackingId, clientId)
         {
         }
     }
