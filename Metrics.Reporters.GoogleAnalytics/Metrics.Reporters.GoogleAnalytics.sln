@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrics.Reporters.GoogleAna
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GoogleAnalyticsTrackingPlayground", "GoogleAnalyticsTrackingPlayground\GoogleAnalyticsTrackingPlayground.xproj", "{4EA5C27A-E680-4FF7-911B-9F38982C9A8C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrics.Reporters.GoogleAnalytics.Tracker", "Metrics.Reporters.GoogleAnalytics.Tracker\Metrics.Reporters.GoogleAnalytics.Tracker.csproj", "{4EFBCAEE-3067-4F48-8A65-65E7161EF58B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4EA5C27A-E680-4FF7-911B-9F38982C9A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA5C27A-E680-4FF7-911B-9F38982C9A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EA5C27A-E680-4FF7-911B-9F38982C9A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EFBCAEE-3067-4F48-8A65-65E7161EF58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFBCAEE-3067-4F48-8A65-65E7161EF58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFBCAEE-3067-4F48-8A65-65E7161EF58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFBCAEE-3067-4F48-8A65-65E7161EF58B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
