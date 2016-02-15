@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\MeasurementProtocol.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterBooleanValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterCurrencyValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterIntegerValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterName.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterTextValue.cs" />
+    <Compile Include="Model\MeasurementProtocol\ParameterValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
