@@ -16,8 +16,10 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", protocol.UserAgent);
-                var content = new FormUrlEncodedContent(protocol.Parameters);
-                var response = await client.PostAsync(protocol.Url, content, cancelToken);
+
+                await Task.WhenAll(protocol.HitGroups.Select(hitGroup =>
+                    client.PostAsync(protocol.Url, new StringContent(hitGroup.ToString()), cancelToken)
+                ));
             }
         }
 

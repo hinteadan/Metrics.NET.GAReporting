@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +49,7 @@
     <Compile Include="HttpProcessor.cs" />
     <Compile Include="Model\Counter.cs" />
     <Compile Include="Model\ICanReportToGoogleAnalytics.cs" />
+    <Compile Include="Model\MeasurementProtocol\HitGroup.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpBatchProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpsBatchProtocol.cs" />
@@ -78,6 +83,9 @@
     <Compile Include="Model\MeasurementProtocol\Values\SessionControlValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\TrackingIdValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

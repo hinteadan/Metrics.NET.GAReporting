@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol.Values;
+using MoreLinq;
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 {
@@ -21,7 +22,9 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
         protected readonly Parameter trackingId;
         protected readonly Parameter clientId;
 
-        protected readonly Dictionary<string, Parameter> parameters;
+        protected int batchSize = 1;
+
+        protected readonly List<Dictionary<string, Parameter>> parameterSets;
 
         public static Protocol Http(string trackingId, string clientId)
         {
@@ -49,17 +52,18 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             this.trackingId = Parameter.Text(ParameterName.TrackingId, new TrackingIdValue(trackingId));
             this.clientId = Parameter.Text(ParameterName.ClientId, new ParameterTextValue(clientId, ASCIIEncoding.Unicode.GetByteCount(clientId)));
 
-            this.parameters = new Dictionary<string, Parameter> {
-
-                { this.version.Name, version },
-                { this.trackingId.Name, this.trackingId },
-                { this.clientId.Name, this.clientId }
-            };
+            this.parameterSets = new List<Dictionary<string, Parameter>>(new Dictionary<string, Parameter>[] {
+                new Dictionary<string, Parameter> {
+                    { this.version.Name, version },
+                    { this.trackingId.Name, this.trackingId },
+                    { this.clientId.Name, this.clientId }
+                }
+            });
         }
 
         public Protocol WithParameter(Parameter parameter)
         {
-            this.parameters[parameter.Name] = parameter;
+            this.parameterSets.Last()[parameter.Name] = parameter;
             return this;
         }
 
@@ -75,6 +79,11 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
         public Protocol Track(ParameterTextValue hitType)
         {
             this.WithParameter(Parameter.Text(ParameterName.HitType, hitType));
+            this.parameterSets.Add(new Dictionary<string, Parameter> {
+                { this.version.Name, version },
+                { this.trackingId.Name, this.trackingId },
+                { this.clientId.Name, this.clientId }
+            });
             return this;
         }
 
@@ -94,20 +103,20 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             }
         }
 
-        public IEnumerable<KeyValuePair<string, string>> Parameters
+        public IEnumerable<HitGroup> HitGroups
         {
             get
             {
-                return this.parameters.Values
-                    .Select(p => new KeyValuePair<string, string>(p.Name, p.Value.ToString()))
-                    .ToArray();
+                return this.parameterSets
+                    .Batch(batchSize)
+                    .Select(batch => new HitGroup(batch));
             }
         }
 
 
         public override string ToString()
         {
-            return string.Join("&", this.parameters.Values);
+            return string.Join(Environment.NewLine, this.parameterSets.Select(hit => string.Join("&", hit.Values.Select(p => p.ToString()))));
         }
     }
 }

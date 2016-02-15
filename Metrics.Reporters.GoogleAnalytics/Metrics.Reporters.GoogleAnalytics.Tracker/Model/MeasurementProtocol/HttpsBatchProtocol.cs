@@ -10,6 +10,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
     {
         public HttpsBatchProtocol(string trackingId, string clientId) : base(Protocol.googleHttpsBatchUrl, trackingId, clientId)
         {
+            this.batchSize = 20;
         }
     }
 }
