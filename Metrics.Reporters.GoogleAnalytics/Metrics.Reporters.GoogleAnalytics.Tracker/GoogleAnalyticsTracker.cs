@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol.Values;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model;
+using System.Threading;
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker
 {
@@ -20,17 +21,22 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker
             this.clientId = clientId;
         }
 
+        public async Task Track(IEnumerable<ICanReportToGoogleAnalytics> metrics, CancellationToken cancelToken)
+        {
+            var protocol = Protocol.HttpBatch(this.trackingId, this.clientId);
+            foreach (var metric in metrics)
+            {
+                protocol
+                    .WithParameters(metric.Parameters)
+                    .Track(metric.HitType);
+
+            }
+            await HttpProcessor.Post(protocol, cancelToken);
+        }
+
         public async Task Track(IEnumerable<ICanReportToGoogleAnalytics> metrics)
         {
-            await Task.WhenAll(metrics.Select(metric =>
-                HttpProcessor.Post(
-                    Protocol
-                        .HttpBatch(this.trackingId, this.clientId)
-                        .Track(metric.HitType)
-                        .WithParameters(metric.Parameters)
-                    )
-                )
-            );
+            await Track(metrics, CancellationToken.None);
         }
     }
 }
