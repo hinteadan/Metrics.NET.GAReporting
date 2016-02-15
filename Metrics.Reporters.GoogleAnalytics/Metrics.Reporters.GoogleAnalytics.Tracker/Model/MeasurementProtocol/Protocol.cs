@@ -11,6 +11,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
     {
         protected const string googleHttpUrl = "http://www.google-analytics.com/collect";
         protected const string googleHttpsUrl = "https://ssl.google-analytics.com/collect";
+        protected const string googleHttpBatchUrl = "http://www.google-analytics.com/batch";
+        protected const string googleHttpsBatchUrl = "https://ssl.google-analytics.com/batch";
 
         private const string userAgent = "Metrics.NET/2.0 (Windows NT 10.0; Win64; x64; rv:2.0) Metrics.NET.GoogleAnalytics.Reporter/1 GoogleAnalytics.Tracker/1.0";
 
@@ -26,9 +28,19 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             return new HttpProtocol(trackingId, clientId);
         }
 
+        public static Protocol HttpBatch(string trackingId, string clientId)
+        {
+            return new HttpBatchProtocol(trackingId, clientId);
+        }
+
         public static Protocol Https(string trackingId, string clientId)
         {
             return new HttpsProtocol(trackingId, clientId);
+        }
+
+        public static Protocol HttpsBatch(string trackingId, string clientId)
+        {
+            return new HttpsBatchProtocol(trackingId, clientId);
         }
 
         protected Protocol(string url, string trackingId, string clientId)

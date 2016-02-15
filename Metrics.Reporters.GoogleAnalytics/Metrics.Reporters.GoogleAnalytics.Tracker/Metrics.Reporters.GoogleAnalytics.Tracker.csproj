@@ -43,7 +43,11 @@
   <ItemGroup>
     <Compile Include="GoogleAnalyticsTracker.cs" />
     <Compile Include="HttpProcessor.cs" />
+    <Compile Include="Model\Counter.cs" />
+    <Compile Include="Model\ICanReportToGoogleAnalytics.cs" />
+    <Compile Include="Model\MeasurementProtocol\HttpBatchProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpProtocol.cs" />
+    <Compile Include="Model\MeasurementProtocol\HttpsBatchProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpsProtocol.cs" />
     <Compile Include="Model\MeasurementProtocol\Parameter.cs" />
     <Compile Include="Model\MeasurementProtocol\ParameterBooleanValue.cs" />
