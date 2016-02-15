@@ -63,6 +63,16 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             }
         }
 
+        public IEnumerable<KeyValuePair<string, string>> Parameters
+        {
+            get
+            {
+                return this.parameters.Values
+                    .Select(p => new KeyValuePair<string, string>(p.Name, p.Value.ToString()))
+                    .ToArray();
+            }
+        }
+
 
         public override string ToString()
         {

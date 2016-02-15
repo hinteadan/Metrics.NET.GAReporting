@@ -46,6 +46,14 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             }
         }
 
+        public ParameterValue Value
+        {
+            get
+            {
+                return value;
+            }
+        }
+
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0}={1}", this.name, this.value.ToStringForPayload());
