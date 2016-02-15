@@ -51,6 +51,15 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             return this;
         }
 
+        public Protocol WithParameters(IEnumerable<Parameter> parameters)
+        {
+            foreach (var p in parameters)
+            {
+                this.WithParameter(p);
+            }
+            return this;
+        }
+
         public Protocol Track(ParameterTextValue hitType)
         {
             this.WithParameter(Parameter.Text(ParameterName.HitType, hitType));
