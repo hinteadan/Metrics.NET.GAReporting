@@ -11,14 +11,10 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
     {
         static void Main(string[] args)
         {
-            //Metric.Config
-            //    .WithAllCounters()
-            //    .WithInternalMetrics()
-            //    .WithReporting(cfg => cfg.WithGoogleAnalytics());
-
-            var tracker = new GoogleAnalyticsTracker("UA-73715504-2", Guid.NewGuid().ToString());
-
-            tracker.Track().Wait();
+            Metric.Config
+                .WithAllCounters()
+                .WithInternalMetrics()
+                .WithReporting(cfg => cfg.WithGoogleAnalytics());
 
             Console.WriteLine("Done @ {0}", DateTime.Now);
             Console.ReadKey();
