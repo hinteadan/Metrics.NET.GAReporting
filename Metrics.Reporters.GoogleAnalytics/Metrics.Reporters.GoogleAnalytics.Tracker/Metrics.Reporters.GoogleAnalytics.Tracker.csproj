@@ -82,6 +82,7 @@
     <Compile Include="Model\MeasurementProtocol\Values\SystemInfoValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\SessionControlValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\TrackingIdValue.cs" />
+    <Compile Include="Model\Metric.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

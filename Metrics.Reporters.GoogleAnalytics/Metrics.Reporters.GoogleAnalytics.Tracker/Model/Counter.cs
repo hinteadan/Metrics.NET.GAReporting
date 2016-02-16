@@ -8,21 +8,34 @@ using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol.Values
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
 {
-    public class Counter : ICanReportToGoogleAnalytics
+    public class Counter : Metric
     {
-        public ParameterTextValue HitType
+        private readonly string name;
+        private readonly long value;
+
+        public Counter(string name, long value)
+        {
+            this.name = name;
+            this.value = value;
+        }
+
+        public override string Name
         {
             get
             {
-                return HitTypeValue.Event;
+                return this.name;
             }
         }
 
-        public IEnumerable<Parameter> Parameters
+        public override IEnumerable<Parameter> Parameters
         {
             get
             {
-                throw new NotImplementedException();
+                return base.Parameters.Concat(new Parameter[] {
+                    Parameter.Text(ParameterName.EventCategory, new EventCategoryValue("Counter")),
+                    Parameter.Text(ParameterName.EventAction, new EventActionValue("Count")),
+                    Parameter.Integer(ParameterName.EventValue, new ParameterIntegerValue(value))
+                });
             }
         }
     }
