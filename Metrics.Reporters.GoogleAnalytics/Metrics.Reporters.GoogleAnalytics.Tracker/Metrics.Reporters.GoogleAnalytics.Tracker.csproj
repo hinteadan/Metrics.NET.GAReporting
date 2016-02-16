@@ -48,6 +48,7 @@
     <Compile Include="GoogleAnalyticsTracker.cs" />
     <Compile Include="HttpProcessor.cs" />
     <Compile Include="Model\Counter.cs" />
+    <Compile Include="Model\Gauge.cs" />
     <Compile Include="Model\ICanReportToGoogleAnalytics.cs" />
     <Compile Include="Model\MeasurementProtocol\HitGroup.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpBatchProtocol.cs" />

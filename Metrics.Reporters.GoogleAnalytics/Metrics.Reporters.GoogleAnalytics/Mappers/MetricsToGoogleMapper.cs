@@ -12,7 +12,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
     {
         public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
         {
-            return Map(metricData.Counters);
+            return Map(metricData.Counters)
+                .Concat(Map(metricData.Gauges));
         }
 
         private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter)
@@ -23,6 +24,16 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
         private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<CounterValueSource> counters)
         {
             return counters.Select(Map).ToArray();
+        }
+
+        private static Google.ICanReportToGoogleAnalytics Map(GaugeValueSource gauge)
+        {
+            return new Google.Gauge(gauge.Name, gauge.Value, gauge.Unit.Name);
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<GaugeValueSource> gauges)
+        {
+            return gauges.Select(Map).ToArray();
         }
 
 
