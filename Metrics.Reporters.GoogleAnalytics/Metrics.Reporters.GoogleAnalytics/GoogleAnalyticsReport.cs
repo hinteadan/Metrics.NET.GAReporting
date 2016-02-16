@@ -15,7 +15,7 @@ namespace Metrics.Reporters.GoogleAnalytics
         {
             var tracker = new GoogleAnalyticsTracker("UA-73715504-2", Guid.NewGuid().ToString());
 
-            tracker.Track().Wait();
+            //tracker.Track().Wait();
         }
     }
 }
