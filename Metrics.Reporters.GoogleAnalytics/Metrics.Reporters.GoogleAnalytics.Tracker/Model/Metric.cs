@@ -25,6 +25,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
             get
             {
                 return new Parameter[] {
+                    Parameter.Boolean(ParameterName.HitNonInteractive, ParameterBooleanValue.True),
                     Parameter.Text(ParameterName.EventLabel, new EventLabelValue(this.Name))
                 };
             }

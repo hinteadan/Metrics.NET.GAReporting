@@ -8,7 +8,10 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 {
     public class ParameterBooleanValue : ParameterValue<bool>
     {
-        public ParameterBooleanValue(bool value) : base(value)
+        public static ParameterBooleanValue True = new ParameterBooleanValue(true);
+        public static ParameterBooleanValue False = new ParameterBooleanValue(false);
+
+        private ParameterBooleanValue(bool value) : base(value)
         {
 
         }
