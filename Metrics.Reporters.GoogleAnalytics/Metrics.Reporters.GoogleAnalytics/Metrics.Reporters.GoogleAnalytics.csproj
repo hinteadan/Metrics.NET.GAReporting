@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="GoogleAnalyticsConfigExtensions.cs" />
     <Compile Include="GoogleAnalyticsReport.cs" />
+    <Compile Include="Mappers\Extensions.cs" />
+    <Compile Include="Mappers\MetricsToGoogleMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
