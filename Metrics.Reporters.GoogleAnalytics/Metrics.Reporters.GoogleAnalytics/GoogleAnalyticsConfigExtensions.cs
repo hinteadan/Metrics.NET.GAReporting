@@ -11,7 +11,7 @@ namespace Metrics.Reporters.GoogleAnalytics
     {
         public static MetricsReports WithGoogleAnalytics(this MetricsReports reports)
         {
-            return reports.WithReport(new GoogleAnalyticsReport(), TimeSpan.FromSeconds(30));
+            return reports.WithReport(new GoogleAnalyticsReport(), TimeSpan.FromSeconds(10));
         }
     }
 }

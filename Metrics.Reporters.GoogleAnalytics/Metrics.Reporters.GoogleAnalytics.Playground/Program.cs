@@ -16,13 +16,17 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
                 .WithInternalMetrics()
                 .WithReporting(cfg => cfg.WithGoogleAnalytics());
 
-            var counter1 = Metric.Counter("Some Counter", Unit.Calls);
-            var counter2 = Metric.Counter("Some Other Counter", Unit.Events);
-            var counter3 = Metric.Counter("Another Counter", Unit.Items);
+            var counters = new Counter[] {
+                Metric.Counter("Some Counter", Unit.Calls),
+                Metric.Counter("Some Other Counter", Unit.Events)
+            };
 
-            counter1.Increment();
-            counter2.Increment();
-            counter3.Increment();
+            Metric.Gauge("Some Gauge", () => 33.656, Unit.Custom("kbps"));
+            Metric.Gauge("Some Other Gauge", () => 1332.3, Unit.Custom("m/s"));
+
+
+            counters[0].Increment();
+            counters[1].Increment();
 
             Console.WriteLine("Done @ {0}", DateTime.Now);
             Console.ReadKey();
