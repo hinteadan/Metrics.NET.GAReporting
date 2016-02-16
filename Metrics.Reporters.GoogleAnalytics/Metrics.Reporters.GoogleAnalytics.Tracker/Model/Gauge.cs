@@ -11,15 +11,19 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
     public class Gauge : Metric
     {
         private readonly string name;
+        private readonly string category;
         private readonly double value;
         private readonly string unit;
 
-        public Gauge(string name, double value, string unit)
+        public Gauge(string name, double value, string unit, string category)
         {
             this.name = name;
+            this.category = category;
             this.value = value;
             this.unit = unit;
         }
+
+        public Gauge(string name, double value, string unit) : this(name, value, unit, "Gauge") { }
 
         public override string Name
         {

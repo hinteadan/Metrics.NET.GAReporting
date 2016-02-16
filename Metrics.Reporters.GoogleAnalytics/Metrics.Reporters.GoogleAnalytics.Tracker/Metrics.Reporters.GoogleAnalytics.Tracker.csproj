@@ -49,6 +49,7 @@
     <Compile Include="HttpProcessor.cs" />
     <Compile Include="Model\Counter.cs" />
     <Compile Include="Model\Gauge.cs" />
+    <Compile Include="Model\Histogram.cs" />
     <Compile Include="Model\ICanReportToGoogleAnalytics.cs" />
     <Compile Include="Model\MeasurementProtocol\HitGroup.cs" />
     <Compile Include="Model\MeasurementProtocol\HttpBatchProtocol.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Model\MeasurementProtocol\Values\SessionControlValue.cs" />
     <Compile Include="Model\MeasurementProtocol\Values\TrackingIdValue.cs" />
     <Compile Include="Model\Metric.cs" />
+    <Compile Include="Model\MetricGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

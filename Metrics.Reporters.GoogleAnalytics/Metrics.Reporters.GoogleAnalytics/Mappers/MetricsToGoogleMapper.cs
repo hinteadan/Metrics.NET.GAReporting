@@ -13,7 +13,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
         public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
         {
             return Map(metricData.Counters)
-                .Concat(Map(metricData.Gauges));
+                .Concat(Map(metricData.Gauges))
+                .Concat(Map(metricData.Histograms));
         }
 
         private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter)
@@ -36,6 +37,16 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
             return gauges.Select(Map).ToArray();
         }
 
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(HistogramValueSource histogram)
+        {
+            return new Google.Histogram(histogram.Name, histogram.Unit.Name, histogram.Value.Count,
+                histogram.Value.LastValue, histogram.Value.Max, histogram.Value.Min, histogram.Value.Mean, histogram.Value.StdDev,
+                histogram.Value.Percentile75, histogram.Value.Percentile95, histogram.Value.Percentile98, histogram.Value.Percentile99, histogram.Value.Percentile999);
+        }
 
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<HistogramValueSource> histograms)
+        {
+            return histograms.SelectMany(Map).ToArray();
+        }
     }
 }

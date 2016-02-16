@@ -11,17 +11,21 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
     public class Counter : Metric
     {
         private readonly string name;
+        private readonly string category;
         private readonly long value;
         private readonly string unit;
 
-        public Counter(string name, long value, string unit)
+        public Counter(string name, long value, string unit, string category)
         {
             this.name = name;
             this.value = value;
             this.unit = unit;
+            this.category = category;
         }
 
-        public Counter(string name, long value) : this(name, value, "Count") { }
+        public Counter(string name, long value, string unit) : this(name, value, unit, "Counter") { }
+
+        public Counter(string name, long value) : this(name, value, "Count", "Counter") { }
 
         public override string Name
         {
@@ -36,7 +40,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
             get
             {
                 return base.Parameters.Concat(new Parameter[] {
-                    Parameter.Text(ParameterName.EventCategory, new EventCategoryValue("Counter")),
+                    Parameter.Text(ParameterName.EventCategory, new EventCategoryValue(category)),
                     Parameter.Text(ParameterName.EventAction, new EventActionValue(unit)),
                     Parameter.Integer(ParameterName.EventValue, new ParameterIntegerValue(value))
                 });
