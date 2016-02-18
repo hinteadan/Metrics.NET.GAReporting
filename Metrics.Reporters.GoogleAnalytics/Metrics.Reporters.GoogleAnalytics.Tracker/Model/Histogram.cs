@@ -37,7 +37,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
             this.gaugeOfLatestValue = new Gauge(string.Format("{0} Last Value", name), latestValue, unit, gaugeCategory);
             this.gaugeOfMaxValue = new Gauge(string.Format("{0} Max Value", name), maxValue, unit, gaugeCategory);
             this.gaugeOfAvgValue = new Gauge(string.Format("{0} Avg Value", name), avgValue, unit, gaugeCategory);
-            this.gaugeOfMinValue = new Gauge(string.Format("{0} Max Value", name), minValue, unit, gaugeCategory);
+            this.gaugeOfMinValue = new Gauge(string.Format("{0} Min Value", name), minValue, unit, gaugeCategory);
             this.gaugeOfStdDevValue = new Gauge(string.Format("{0} StdDev Value", name), stdDevValue, unit, gaugeCategory);
 
             this.gaugeOfPerecent75 = new Gauge(string.Format("{0} Percentile 75", name), percent75, unit, gaugeCategory);

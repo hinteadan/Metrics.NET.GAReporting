@@ -38,7 +38,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
             get
             {
                 return base.Parameters.Concat(new Parameter[] {
-                    Parameter.Text(ParameterName.EventCategory, new EventCategoryValue("Gauge")),
+                    Parameter.Text(ParameterName.EventCategory, new EventCategoryValue(this.category)),
                     Parameter.Text(ParameterName.EventAction, new EventActionValue(string.Format("x1000 {0}", unit))),
                     Parameter.Integer(ParameterName.EventValue, new ParameterIntegerValue((long)(value * 1000)))
                 });
