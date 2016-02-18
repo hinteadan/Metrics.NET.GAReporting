@@ -11,7 +11,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
     public class Histogram : MetricGroup
     {
         private const string gaugeCategory = "Histogram Gauge";
-        private const string counterCategory = "Histogram Gauge";
+        private const string counterCategory = "Histogram Counter";
 
         private readonly Counter counter;
 
