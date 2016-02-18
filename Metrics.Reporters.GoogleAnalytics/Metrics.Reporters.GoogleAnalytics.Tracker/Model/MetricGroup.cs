@@ -20,5 +20,17 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
         {
             return this.GetEnumerator();
         }
+
+        protected static string Prefix(string subject, string prefix)
+        {
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                return subject;
+            }
+
+            string joiner = " ";
+
+            return string.Format("{0}{1}{2}", prefix, joiner, subject);
+        }
     }
 }

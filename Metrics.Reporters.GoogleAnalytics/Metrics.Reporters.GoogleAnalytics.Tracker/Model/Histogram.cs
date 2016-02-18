@@ -30,21 +30,21 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
         private readonly ICanReportToGoogleAnalytics[] metrics;
 
         public Histogram(string name, string unit, long count, double latestValue, double maxValue, double minValue, double avgValue, double stdDevValue,
-            double percent75, double percent95, double percent98, double percent99, double percent999)
+            double percent75, double percent95, double percent98, double percent99, double percent999, string categoryPrefix)
         {
-            this.counter = new Counter(string.Format("{0} Count", name), count, unit, counterCategory);
+            this.counter = new Counter(string.Format("{0} Count", name), count, unit, Prefix(counterCategory, categoryPrefix));
 
-            this.gaugeOfLatestValue = new Gauge(string.Format("{0} Last Value", name), latestValue, unit, gaugeCategory);
-            this.gaugeOfMaxValue = new Gauge(string.Format("{0} Max Value", name), maxValue, unit, gaugeCategory);
-            this.gaugeOfAvgValue = new Gauge(string.Format("{0} Avg Value", name), avgValue, unit, gaugeCategory);
-            this.gaugeOfMinValue = new Gauge(string.Format("{0} Min Value", name), minValue, unit, gaugeCategory);
-            this.gaugeOfStdDevValue = new Gauge(string.Format("{0} StdDev Value", name), stdDevValue, unit, gaugeCategory);
+            this.gaugeOfLatestValue = new Gauge(string.Format("{0} Last Value", name), latestValue, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfMaxValue = new Gauge(string.Format("{0} Max Value", name), maxValue, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfAvgValue = new Gauge(string.Format("{0} Avg Value", name), avgValue, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfMinValue = new Gauge(string.Format("{0} Min Value", name), minValue, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfStdDevValue = new Gauge(string.Format("{0} StdDev Value", name), stdDevValue, unit, Prefix(gaugeCategory, categoryPrefix));
 
-            this.gaugeOfPerecent75 = new Gauge(string.Format("{0} Percentile 75", name), percent75, unit, gaugeCategory);
-            this.gaugeOfPerecent95 = new Gauge(string.Format("{0} Percentile 95", name), percent95, unit, gaugeCategory);
-            this.gaugeOfPerecent98 = new Gauge(string.Format("{0} Percentile 98", name), percent98, unit, gaugeCategory);
-            this.gaugeOfPerecent99 = new Gauge(string.Format("{0} Percentile 99", name), percent99, unit, gaugeCategory);
-            this.gaugeOfPerecent999 = new Gauge(string.Format("{0} Percentile 999", name), percent999, unit, gaugeCategory);
+            this.gaugeOfPerecent75 = new Gauge(string.Format("{0} Percentile 75", name), percent75, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfPerecent95 = new Gauge(string.Format("{0} Percentile 95", name), percent95, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfPerecent98 = new Gauge(string.Format("{0} Percentile 98", name), percent98, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfPerecent99 = new Gauge(string.Format("{0} Percentile 99", name), percent99, unit, Prefix(gaugeCategory, categoryPrefix));
+            this.gaugeOfPerecent999 = new Gauge(string.Format("{0} Percentile 999", name), percent999, unit, Prefix(gaugeCategory, categoryPrefix));
 
             this.metrics = new ICanReportToGoogleAnalytics[]
             {
@@ -63,6 +63,11 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
                 this.gaugeOfPerecent999,
             };
         }
+
+        public Histogram(string name, string unit, long count, double latestValue, double maxValue, double minValue, double avgValue, double stdDevValue,
+            double percent75, double percent95, double percent98, double percent99, double percent999)
+            : this(name, unit, count, latestValue, maxValue, minValue, avgValue, stdDevValue, percent75, percent95, percent98, percent99, percent999, null)
+        { }
 
         public override IEnumerable<ICanReportToGoogleAnalytics> Metrics
         {

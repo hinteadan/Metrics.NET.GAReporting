@@ -87,6 +87,7 @@
     <Compile Include="Model\Meter.cs" />
     <Compile Include="Model\Metric.cs" />
     <Compile Include="Model\MetricGroup.cs" />
+    <Compile Include="Model\Timer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

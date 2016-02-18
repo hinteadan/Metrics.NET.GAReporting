@@ -15,7 +15,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
             return Map(metricData.Counters)
                 .Concat(Map(metricData.Gauges))
                 .Concat(Map(metricData.Histograms))
-                .Concat(Map(metricData.Meters));
+                .Concat(Map(metricData.Meters))
+                .Concat(Map(metricData.Timers));
         }
 
         private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter)
@@ -58,6 +59,36 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
         private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<MeterValueSource> meters)
         {
             return meters.SelectMany(Map).ToArray();
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(TimerValueSource timer)
+        {
+            return new Google.Timer(timer.Name, new Google.Timer.MeterParameters
+            {
+                Count = timer.Value.Rate.Count,
+                Rate = timer.Value.Rate.MeanRate,
+                Unit = timer.Unit.Name,
+                RateUnit = TimeUnitLabel(timer.Value.Rate.RateUnit)
+            }, new Google.Timer.HistogramParameters
+            {
+                Count = timer.Value.Histogram.Count,
+                Unit = timer.Unit.Name,
+                AvgValue = timer.Value.Histogram.Mean,
+                LatestValue = timer.Value.Histogram.LastValue,
+                MaxValue = timer.Value.Histogram.Max,
+                MinValue = timer.Value.Histogram.Min,
+                StdDevValue = timer.Value.Histogram.StdDev,
+                Percent75Value = timer.Value.Histogram.Percentile75,
+                Percent95Value = timer.Value.Histogram.Percentile95,
+                Percent98Value = timer.Value.Histogram.Percentile98,
+                Percent999Value = timer.Value.Histogram.Percentile999,
+                Percent99Value = timer.Value.Histogram.Percentile99
+            });
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<TimerValueSource> timers)
+        {
+            return timers.SelectMany(Map).ToArray();
         }
 
         private static string TimeUnitLabel(TimeUnit rateUnit)

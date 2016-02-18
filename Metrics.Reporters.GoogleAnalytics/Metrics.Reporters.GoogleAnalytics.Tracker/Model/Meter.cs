@@ -17,17 +17,20 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
 
         private readonly ICanReportToGoogleAnalytics[] metrics;
 
-        public Meter(string name, string unit, string rateUnit, long count, double rate)
+        public Meter(string name, string unit, string rateUnit, long count, double rate, string categoryPrefix)
         {
-            this.counter = new Counter(string.Format("{0} Count", name), count, unit, counterCategory);
-            this.gaugeOfRate = new Gauge(string.Format("{0} Gauge", name), rate, rateUnit, gaugeCategory);
+            this.counter = new Counter(string.Format("{0} Count", name), count, unit, Prefix(counterCategory, categoryPrefix));
+            this.gaugeOfRate = new Gauge(string.Format("{0} Gauge", name), rate, rateUnit, Prefix(gaugeCategory, categoryPrefix));
             this.metrics = new ICanReportToGoogleAnalytics[]
             {
                 this.counter,
                 this.gaugeOfRate,
             };
-
         }
+
+
+
+        public Meter(string name, string unit, string rateUnit, long count, double rate) : this(name, unit, rateUnit, count, rate, null) { }
 
         public override IEnumerable<ICanReportToGoogleAnalytics> Metrics
         {
