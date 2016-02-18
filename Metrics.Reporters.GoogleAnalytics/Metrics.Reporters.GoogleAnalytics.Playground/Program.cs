@@ -16,6 +16,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
                 .WithInternalMetrics()
                 .WithReporting(cfg => cfg.WithGoogleAnalytics());
 
+            var meter = Metric.Meter("Meter Sample", Unit.Calls, TimeUnit.Microseconds);
+
             var histogram = Metric.Histogram("Some Histogram", Unit.Requests);
 
             var counters = new Counter[] {
@@ -35,6 +37,11 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
             histogram.Update(3);
             histogram.Update(50);
             histogram.Update(1);
+
+            meter.Mark(10);
+            meter.Mark(1);
+            meter.Mark(4);
+            meter.Mark(3);
 
             Console.WriteLine("Done @ {0}", DateTime.Now);
             Console.ReadKey();

@@ -14,7 +14,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
         {
             return Map(metricData.Counters)
                 .Concat(Map(metricData.Gauges))
-                .Concat(Map(metricData.Histograms));
+                .Concat(Map(metricData.Histograms))
+                .Concat(Map(metricData.Meters));
         }
 
         private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter)
@@ -47,6 +48,32 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
         private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<HistogramValueSource> histograms)
         {
             return histograms.SelectMany(Map).ToArray();
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MeterValueSource meter)
+        {
+            return new Google.Meter(meter.Name, meter.Unit.Name, string.Format("{0}/{1}", meter.Unit.Name, TimeUnitLabel(meter.RateUnit)), meter.Value.Count, meter.Value.MeanRate);
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<MeterValueSource> meters)
+        {
+            return meters.SelectMany(Map).ToArray();
+        }
+
+        private static string TimeUnitLabel(TimeUnit rateUnit)
+        {
+            switch (rateUnit)
+            {
+                case TimeUnit.Days: return "d";
+                case TimeUnit.Hours: return "h";
+                case TimeUnit.Microseconds: return "\u00b5s";
+                case TimeUnit.Milliseconds: return "ms";
+                case TimeUnit.Minutes: return "m";
+                case TimeUnit.Nanoseconds: return "ns";
+                case TimeUnit.Seconds: return "s";
+            }
+
+            return "unknown";
         }
     }
 }
