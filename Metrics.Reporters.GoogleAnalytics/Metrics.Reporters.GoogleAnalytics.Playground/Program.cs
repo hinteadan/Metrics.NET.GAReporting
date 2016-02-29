@@ -15,7 +15,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
             Metric.Config
                 .WithAllCounters()
                 .WithInternalMetrics()
-                .WithReporting(cfg => cfg.WithGoogleAnalytics());
+                .WithReporting(cfg => cfg.WithGoogleAnalytics("UA-73715504-2", Guid.NewGuid().ToString(), TimeSpan.FromSeconds(10)));
 
             var timer = Metric.Timer("Awesome Processor", Unit.Requests, SamplingType.FavourRecent, TimeUnit.Microseconds, TimeUnit.Microseconds);
 

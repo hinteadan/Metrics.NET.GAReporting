@@ -14,9 +14,9 @@ namespace Metrics.Reporters.GoogleAnalytics
     {
         private readonly GoogleAnalyticsTracker tracker;
 
-        public GoogleAnalyticsReport()
+        public GoogleAnalyticsReport(string trackingId, string clientId)
         {
-            this.tracker = new GoogleAnalyticsTracker("UA-73715504-2", Guid.NewGuid().ToString());
+            this.tracker = new GoogleAnalyticsTracker(trackingId, clientId);
         }
 
         public void RunReport(MetricsData metricsData, Func<HealthStatus> healthStatus, CancellationToken token)
