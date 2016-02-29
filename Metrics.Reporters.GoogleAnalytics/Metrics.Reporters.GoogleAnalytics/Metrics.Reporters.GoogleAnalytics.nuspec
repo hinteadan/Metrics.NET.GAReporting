@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Metrics.Reporters.GoogleAnalytics</id>
+    <version>1.0.0</version>
+    <title>Google Analytics Reporter for Metrics.NET</title>
+    <authors>Recognos ETI Team</authors>
+    <owners>Recognos,ETI Team,Hintee</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Google Analytics Reporter for Metrics.NET</description>
+    <releaseNotes>First Release</releaseNotes>
+    <copyright>Copyright 2016. Recognos ETI Team. #alwayswithus.</copyright>
+    <tags>Recognos metrics net eti</tags>
+  </metadata>
+</package>

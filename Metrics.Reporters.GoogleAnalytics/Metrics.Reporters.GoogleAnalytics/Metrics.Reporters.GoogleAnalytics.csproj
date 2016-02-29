@@ -52,7 +52,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Metrics.Reporters.GoogleAnalytics.nuspec" />
     <None Include="packages.config" />
+    <None Include="PublishNuGet.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Metrics.Reporters.GoogleAnalytics.Tracker\Metrics.Reporters.GoogleAnalytics.Tracker.csproj">
