@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 
         protected int batchSize = 1;
 
+        protected readonly IEnumerable<Parameter> trackingParameters;
         protected readonly List<Dictionary<string, Parameter>> parameterSets;
 
         public static Protocol Http(string trackingId, string clientId)
@@ -52,13 +54,19 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             this.trackingId = Parameter.Text(ParameterName.TrackingId, new TrackingIdValue(trackingId));
             this.clientId = Parameter.Text(ParameterName.ClientId, new ParameterTextValue(clientId, ASCIIEncoding.Unicode.GetByteCount(clientId)));
 
-            this.parameterSets = new List<Dictionary<string, Parameter>>(new Dictionary<string, Parameter>[] {
-                new Dictionary<string, Parameter> {
-                    { this.version.Name, version },
-                    { this.trackingId.Name, this.trackingId },
-                    { this.clientId.Name, this.clientId }
-                }
-            });
+            this.trackingParameters = new Parameter[] {
+                this.version,
+                this.trackingId,
+                this.clientId,
+                Parameter.Text(ParameterName.UserId, new ParameterTextValue("Metrics.NET", ASCIIEncoding.Unicode.GetByteCount("Metrics.NET"))),
+                Parameter.Boolean(ParameterName.HitNonInteractive, ParameterBooleanValue.True),
+                Parameter.Text(ParameterName.UserAgentOverride, new ParameterTextValue(ParameterName.UserAgentOverride, ASCIIEncoding.Unicode.GetByteCount(userAgent)))
+            };
+
+            this.parameterSets = new List<Dictionary<string, Parameter>>(
+                new Dictionary<string, Parameter>[] {
+                    this.trackingParameters.ToDictionary(p => p.Name, p => p)
+                });
         }
 
         public Protocol WithParameter(Parameter parameter)
@@ -73,6 +81,22 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             {
                 this.WithParameter(p);
             }
+            return this;
+        }
+
+        public Protocol Prepend(IEnumerable<IEnumerable<Parameter>> hits)
+        {
+            parameterSets.InsertRange(0, hits.Select(hit =>
+                hit.Concat(this.trackingParameters).ToDictionary(p => p.Name, p => p))
+            );
+            return this;
+        }
+
+        public Protocol Append(IEnumerable<IEnumerable<Parameter>> hits)
+        {
+            parameterSets.AddRange(hits.Select(hit =>
+                hit.Concat(this.trackingParameters).ToDictionary(p => p.Name, p => p))
+            );
             return this;
         }
 
@@ -107,16 +131,21 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
         {
             get
             {
-                return this.parameterSets
+                return
+                    this.CleanParameterSets()
                     .Batch(batchSize)
                     .Select(batch => new HitGroup(batch));
             }
         }
 
-
         public override string ToString()
         {
             return string.Join(Environment.NewLine, this.parameterSets.Select(hit => string.Join("&", hit.Values.Select(p => p.ToString()))));
+        }
+
+        private IEnumerable<Dictionary<string, Parameter>> CleanParameterSets()
+        {
+            return this.parameterSets.Where(s => s.Keys.Contains(ParameterName.HitType));
         }
     }
 }
