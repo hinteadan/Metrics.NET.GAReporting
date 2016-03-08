@@ -17,9 +17,9 @@ namespace Metrics.Reporters.GoogleAnalytics.Playground
                 .WithInternalMetrics()
                 .WithReporting(cfg => cfg.WithGoogleAnalytics("UA-73715504-2", Guid.NewGuid().ToString(), TimeSpan.FromSeconds(10)));
 
-            var timer = Metric.Timer("[Test] Awesome Processor", Unit.Requests, SamplingType.HighDynamicRange, TimeUnit.Microseconds, TimeUnit.Microseconds);
+            var timer = Metric.Context("Hintee").Context("H").Timer("Awesome Processor", Unit.Requests, SamplingType.HighDynamicRange, TimeUnit.Microseconds, TimeUnit.Microseconds);
 
-            using (timer.NewContext())
+            using (timer.NewContext("Hintee"))
             {
                 Thread.Sleep(133);
             }

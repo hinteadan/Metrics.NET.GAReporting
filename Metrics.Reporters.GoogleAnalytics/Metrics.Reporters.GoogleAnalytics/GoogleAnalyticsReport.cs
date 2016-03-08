@@ -21,7 +21,7 @@ namespace Metrics.Reporters.GoogleAnalytics
 
         public void RunReport(MetricsData metricsData, Func<HealthStatus> healthStatus, CancellationToken token)
         {
-            tracker.Track(metricsData.Flatten().AsGoogleAnalytics(), token).Wait(token);
+            tracker.Track(metricsData.AsGoogleAnalytics(), token).Wait(token);
         }
     }
 }

@@ -10,60 +10,61 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
 {
     internal static class MetricsToGoogleMapper
     {
-        public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
+        public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string parentContext = null)
         {
-            return Map(metricData.Counters)
-                .Concat(Map(metricData.Gauges))
-                .Concat(Map(metricData.Histograms))
-                .Concat(Map(metricData.Meters))
-                .Concat(Map(metricData.Timers));
+            return Map(metricData.Counters, FullContext(parentContext, metricData.Context))
+                .Concat(Map(metricData.Gauges, FullContext(parentContext, metricData.Context)))
+                .Concat(Map(metricData.Histograms, FullContext(parentContext, metricData.Context)))
+                .Concat(Map(metricData.Meters, FullContext(parentContext, metricData.Context)))
+                .Concat(Map(metricData.Timers, FullContext(parentContext, metricData.Context)))
+                .Union(metricData.ChildMetrics.SelectMany(m => Map(m, FullContext(parentContext, metricData.Context))));
         }
 
-        private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter)
+        private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter, string context)
         {
-            return new Google.Counter(counter.Name, counter.Value.Count, counter.Unit.Name);
+            return new Google.Counter(FullName(counter.Name, context), counter.Value.Count, counter.Unit.Name);
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<CounterValueSource> counters)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<CounterValueSource> counters, string context)
         {
-            return counters.Select(Map).ToArray();
+            return counters.Select(x => Map(x, context)).ToArray();
         }
 
-        private static Google.ICanReportToGoogleAnalytics Map(GaugeValueSource gauge)
+        private static Google.ICanReportToGoogleAnalytics Map(GaugeValueSource gauge, string context)
         {
-            return new Google.Gauge(gauge.Name, gauge.Value, gauge.Unit.Name);
+            return new Google.Gauge(FullName(gauge.Name, context), gauge.Value, gauge.Unit.Name);
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<GaugeValueSource> gauges)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<GaugeValueSource> gauges, string context)
         {
-            return gauges.Select(Map).ToArray();
+            return gauges.Select(x => Map(x, context)).ToArray();
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(HistogramValueSource histogram)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(HistogramValueSource histogram, string context)
         {
-            return new Google.Histogram(histogram.Name, histogram.Unit.Name, histogram.Value.Count,
+            return new Google.Histogram(FullName(histogram.Name, context), histogram.Unit.Name, histogram.Value.Count,
                 histogram.Value.LastValue, histogram.Value.Max, histogram.Value.Min, histogram.Value.Mean, histogram.Value.StdDev,
                 histogram.Value.Percentile75, histogram.Value.Percentile95, histogram.Value.Percentile98, histogram.Value.Percentile99, histogram.Value.Percentile999);
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<HistogramValueSource> histograms)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<HistogramValueSource> histograms, string context)
         {
-            return histograms.SelectMany(Map).ToArray();
+            return histograms.SelectMany(x => Map(x, context)).ToArray();
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MeterValueSource meter)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MeterValueSource meter, string context)
         {
-            return new Google.Meter(meter.Name, meter.Unit.Name, string.Format("{0}/{1}", meter.Unit.Name, TimeUnitLabel(meter.RateUnit)), meter.Value.Count, meter.Value.MeanRate);
+            return new Google.Meter(FullName(meter.Name, context), meter.Unit.Name, string.Format("{0}/{1}", meter.Unit.Name, TimeUnitLabel(meter.RateUnit)), meter.Value.Count, meter.Value.MeanRate);
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<MeterValueSource> meters)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<MeterValueSource> meters, string context)
         {
-            return meters.SelectMany(Map).ToArray();
+            return meters.SelectMany(x => Map(x, context)).ToArray();
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(TimerValueSource timer)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(TimerValueSource timer, string context)
         {
-            return new Google.Timer(timer.Name, new Google.Timer.MeterParameters
+            return new Google.Timer(FullName(timer.Name, context), new Google.Timer.MeterParameters
             {
                 Count = timer.Value.Rate.Count,
                 Rate = timer.Value.Rate.MeanRate,
@@ -86,9 +87,9 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
             });
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<TimerValueSource> timers)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(IEnumerable<TimerValueSource> timers, string context)
         {
-            return timers.SelectMany(Map).ToArray();
+            return timers.SelectMany(x => Map(x, context)).ToArray();
         }
 
         private static string TimeUnitLabel(TimeUnit rateUnit)
@@ -105,6 +106,30 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
             }
 
             return "unknown";
+        }
+
+        private static string FullName(string name, string context)
+        {
+            if (string.IsNullOrWhiteSpace(context))
+            {
+                return name;
+            }
+            return string.Format("[{0}] {1}", context, name);
+        }
+
+        private static string FullContext(string parentContext, string context)
+        {
+            if (string.IsNullOrWhiteSpace(parentContext))
+            {
+                return context;
+            }
+
+            if (string.IsNullOrWhiteSpace(context))
+            {
+                return parentContext;
+            }
+
+            return string.Format("{0}|{1}", parentContext, context);
         }
     }
 }
