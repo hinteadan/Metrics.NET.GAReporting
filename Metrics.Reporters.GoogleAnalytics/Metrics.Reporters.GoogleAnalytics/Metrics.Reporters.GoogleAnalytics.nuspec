@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Metrics.Reporters.GoogleAnalytics</id>
-    <version>1.0.4-pre</version>
+    <version>1.0.5-pre</version>
     <title>Google Analytics Reporter for Metrics.NET</title>
     <authors>Recognos ETI Team</authors>
     <owners>Recognos,ETI Team,Hintee</owners>
