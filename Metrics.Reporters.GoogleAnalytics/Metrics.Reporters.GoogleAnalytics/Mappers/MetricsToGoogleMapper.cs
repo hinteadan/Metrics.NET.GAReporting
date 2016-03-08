@@ -68,7 +68,8 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
                 Count = timer.Value.Rate.Count,
                 Rate = timer.Value.Rate.MeanRate,
                 Unit = timer.Unit.Name,
-                RateUnit = TimeUnitLabel(timer.Value.Rate.RateUnit)
+                RateUnit = TimeUnitLabel(timer.RateUnit),
+                DurationUnit = TimeUnitLabel(timer.DurationUnit)
             }, new Google.Timer.HistogramParameters
             {
                 Count = timer.Value.Histogram.Count,
