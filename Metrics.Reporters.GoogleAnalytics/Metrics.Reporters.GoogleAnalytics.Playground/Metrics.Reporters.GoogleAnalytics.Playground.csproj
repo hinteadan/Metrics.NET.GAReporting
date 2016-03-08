@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Metrics, Version=0.2.16.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Metrics.NET.0.2.16\lib\net45\Metrics.dll</HintPath>
+    <Reference Include="Metrics, Version=0.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Metrics.NET.0.3.3-pre\lib\net45\Metrics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
