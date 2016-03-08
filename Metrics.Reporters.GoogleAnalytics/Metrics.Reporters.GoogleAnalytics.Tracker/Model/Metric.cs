@@ -12,14 +12,6 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
     {
         public abstract string Name { get; }
 
-        protected string TrackableName
-        {
-            get
-            {
-                return this.Name.Replace('[', '~').Replace(']', '~');
-            }
-        }
-
         public virtual ParameterTextValue HitType
         {
             get
@@ -34,7 +26,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model
             {
                 return new Parameter[] {
                     Parameter.Boolean(ParameterName.HitNonInteractive, ParameterBooleanValue.True),
-                    Parameter.Text(ParameterName.EventLabel, new EventLabelValue(this.TrackableName))
+                    Parameter.Text(ParameterName.EventLabel, new EventLabelValue(this.Name))
                 };
             }
         }
