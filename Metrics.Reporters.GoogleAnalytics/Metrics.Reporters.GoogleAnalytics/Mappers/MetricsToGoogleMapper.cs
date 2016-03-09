@@ -10,7 +10,15 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
 {
     internal static class MetricsToGoogleMapper
     {
-        public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string parentContext = null)
+        private static string rootContext = null;
+
+        public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
+        {
+            rootContext = metricData.Context;
+            return Map(metricData, null);
+        }
+
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string parentContext)
         {
             return Map(metricData.Counters, FullContext(parentContext, metricData.Context))
                 .Concat(Map(metricData.Gauges, FullContext(parentContext, metricData.Context)))
@@ -119,9 +127,9 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
 
         private static string FullContext(string parentContext, string context)
         {
-            if (string.IsNullOrWhiteSpace(parentContext))
+            if (string.IsNullOrWhiteSpace(parentContext) || context == rootContext)
             {
-                return context;
+                return context != rootContext ? context : null;
             }
 
             if (string.IsNullOrWhiteSpace(context))
