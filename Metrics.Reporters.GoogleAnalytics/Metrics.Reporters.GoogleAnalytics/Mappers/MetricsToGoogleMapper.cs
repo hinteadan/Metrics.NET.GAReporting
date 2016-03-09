@@ -127,7 +127,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
 
         private static string FullContext(string parentContext, string context)
         {
-            if (string.IsNullOrWhiteSpace(parentContext) || context == rootContext)
+            if (string.IsNullOrWhiteSpace(parentContext))
             {
                 return context != rootContext ? context : null;
             }
