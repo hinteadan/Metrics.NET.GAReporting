@@ -10,22 +10,19 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
 {
     internal static class MetricsToGoogleMapper
     {
-        private static string rootContext = null;
-
         public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
         {
-            rootContext = metricData.Context;
             return Map(metricData, null);
         }
 
-        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string parentContext)
+        private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string context)
         {
-            return Map(metricData.Counters, FullContext(parentContext, metricData.Context))
-                .Concat(Map(metricData.Gauges, FullContext(parentContext, metricData.Context)))
-                .Concat(Map(metricData.Histograms, FullContext(parentContext, metricData.Context)))
-                .Concat(Map(metricData.Meters, FullContext(parentContext, metricData.Context)))
-                .Concat(Map(metricData.Timers, FullContext(parentContext, metricData.Context)))
-                .Union(metricData.ChildMetrics.SelectMany(m => Map(m, FullContext(parentContext, metricData.Context))));
+            return Map(metricData.Counters, context)
+                .Concat(Map(metricData.Gauges, context))
+                .Concat(Map(metricData.Histograms, context))
+                .Concat(Map(metricData.Meters, context))
+                .Concat(Map(metricData.Timers, context))
+                .Union(metricData.ChildMetrics.SelectMany(m => Map(m, m.Context)));
         }
 
         private static Google.ICanReportToGoogleAnalytics Map(CounterValueSource counter, string context)
@@ -123,21 +120,6 @@ namespace Metrics.Reporters.GoogleAnalytics.Mappers
                 return name;
             }
             return string.Format("[{0}] {1}", context, name);
-        }
-
-        private static string FullContext(string parentContext, string context)
-        {
-            if (string.IsNullOrWhiteSpace(parentContext))
-            {
-                return context != rootContext ? context : null;
-            }
-
-            if (string.IsNullOrWhiteSpace(context))
-            {
-                return parentContext;
-            }
-
-            return string.Format("{0}|{1}", parentContext, context);
         }
     }
 }
