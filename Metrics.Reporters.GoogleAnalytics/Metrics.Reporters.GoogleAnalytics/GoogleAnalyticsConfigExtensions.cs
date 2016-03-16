@@ -9,14 +9,14 @@ namespace Metrics.Reporters.GoogleAnalytics
 {
     public static class GoogleAnalyticsConfigExtensions
     {
-        public static MetricsReports WithGoogleAnalytics(this MetricsReports reports, string trackingId, string clientId, TimeSpan reportingInterval)
+        public static MetricsReports WithGoogleAnalytics(this MetricsReports reports, string trackingId, TimeSpan reportingInterval)
         {
-            return reports.WithReport(new GoogleAnalyticsReport(trackingId, clientId), reportingInterval);
+            return reports.WithReport(new GoogleAnalyticsReport(trackingId), reportingInterval);
         }
 
-        public static MetricsReports WithGoogleAnalytics(this MetricsReports reports, string trackingId, string clientId)
+        public static MetricsReports WithGoogleAnalytics(this MetricsReports reports, string trackingId)
         {
-            return reports.WithReport(new GoogleAnalyticsReport(trackingId, clientId), TimeSpan.FromMinutes(10));
+            return reports.WithReport(new GoogleAnalyticsReport(trackingId), TimeSpan.FromMinutes(10));
         }
     }
 }

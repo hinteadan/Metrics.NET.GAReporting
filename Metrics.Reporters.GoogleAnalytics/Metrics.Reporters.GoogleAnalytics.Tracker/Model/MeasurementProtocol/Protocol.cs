@@ -21,44 +21,40 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
         private readonly Uri baseUrl;
         protected readonly Parameter version = Parameter.Text(ParameterName.Version, ProtocolVersionValue.Version);
         protected readonly Parameter trackingId;
-        protected readonly Parameter clientId;
 
         protected int batchSize = 1;
 
         protected readonly IEnumerable<Parameter> trackingParameters;
         protected readonly List<Dictionary<string, Parameter>> parameterSets;
 
-        public static Protocol Http(string trackingId, string clientId)
+        public static Protocol Http(string trackingId)
         {
-            return new HttpProtocol(trackingId, clientId);
+            return new HttpProtocol(trackingId);
         }
 
-        public static Protocol HttpBatch(string trackingId, string clientId)
+        public static Protocol HttpBatch(string trackingId)
         {
-            return new HttpBatchProtocol(trackingId, clientId);
+            return new HttpBatchProtocol(trackingId);
         }
 
-        public static Protocol Https(string trackingId, string clientId)
+        public static Protocol Https(string trackingId)
         {
-            return new HttpsProtocol(trackingId, clientId);
+            return new HttpsProtocol(trackingId);
         }
 
-        public static Protocol HttpsBatch(string trackingId, string clientId)
+        public static Protocol HttpsBatch(string trackingId)
         {
-            return new HttpsBatchProtocol(trackingId, clientId);
+            return new HttpsBatchProtocol(trackingId);
         }
 
-        protected Protocol(string url, string trackingId, string clientId)
+        protected Protocol(string url, string trackingId)
         {
             this.baseUrl = new Uri(url);
             this.trackingId = Parameter.Text(ParameterName.TrackingId, new TrackingIdValue(trackingId));
-            this.clientId = Parameter.Text(ParameterName.ClientId, new ParameterTextValue(clientId, ASCIIEncoding.Unicode.GetByteCount(clientId)));
 
             this.trackingParameters = new Parameter[] {
                 this.version,
                 this.trackingId,
-                this.clientId,
-                Parameter.Text(ParameterName.UserId, new ParameterTextValue("Metrics.NET", ASCIIEncoding.Unicode.GetByteCount("Metrics.NET"))),
                 Parameter.Boolean(ParameterName.HitNonInteractive, ParameterBooleanValue.True),
                 Parameter.Text(ParameterName.UserAgentOverride, new ParameterTextValue(ParameterName.UserAgentOverride, ASCIIEncoding.Unicode.GetByteCount(userAgent)))
             };
@@ -75,7 +71,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
             return this;
         }
 
-        public Protocol WithParameters(IEnumerable<Parameter> parameters)
+        public Protocol WithParameters(params Parameter[] parameters)
         {
             foreach (var p in parameters)
             {
@@ -102,12 +98,13 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 
         public Protocol Track(ParameterTextValue hitType)
         {
-            this.WithParameter(Parameter.Text(ParameterName.HitType, hitType));
-            this.parameterSets.Add(new Dictionary<string, Parameter> {
-                { this.version.Name, version },
-                { this.trackingId.Name, this.trackingId },
-                { this.clientId.Name, this.clientId }
-            });
+            var userId = Guid.NewGuid().ToString();
+            this.WithParameters(
+                Parameter.Text(ParameterName.ClientId, new ParameterTextValue(userId, ASCIIEncoding.Unicode.GetByteCount(userId))),
+                Parameter.Text(ParameterName.UserId, new ParameterTextValue(userId, ASCIIEncoding.Unicode.GetByteCount(userId))),
+                Parameter.Text(ParameterName.HitType, hitType)
+                );
+            this.parameterSets.Add(this.trackingParameters.ToDictionary(p => p.Name, p => p));
             return this;
         }
 

@@ -17,24 +17,24 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker
         private static Logger log = LogManager.GetCurrentClassLogger();
 
         private readonly string trackingId;
-        private readonly string clientId;
 
-        public GoogleAnalyticsTracker(string trackingId, string clientId)
+        public GoogleAnalyticsTracker(string trackingId)
         {
             this.trackingId = trackingId;
-            this.clientId = clientId;
         }
 
         public async Task Track(IEnumerable<ICanReportToGoogleAnalytics> metrics, CancellationToken cancelToken)
         {
             using (log.Timing("Post metrics to Google Analytics"))
             {
-                var protocol = Protocol.HttpBatch(this.trackingId, this.clientId);
+                var protocol = Protocol.HttpBatch(this.trackingId);
                 foreach (var metric in metrics)
                 {
-                    protocol
-                        .WithParameters(metric.Parameters)
-                        .Track(metric.HitType);
+                    foreach (var p in metric.Parameters)
+                    {
+                        protocol.WithParameter(p);
+                    }
+                    protocol.Track(metric.HitType);
 
                 }
                 await HttpProcessor.Post(protocol, cancelToken);

@@ -8,7 +8,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 {
     internal class HttpProtocol : Protocol
     {
-        public HttpProtocol(string trackingId, string clientId) : base(Protocol.googleHttpUrl, trackingId, clientId)
+        public HttpProtocol(string trackingId) : base(Protocol.googleHttpUrl, trackingId)
         {
         }
     }

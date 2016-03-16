@@ -8,7 +8,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol
 {
     internal class HttpsBatchProtocol : Protocol
     {
-        public HttpsBatchProtocol(string trackingId, string clientId) : base(Protocol.googleHttpsBatchUrl, trackingId, clientId)
+        public HttpsBatchProtocol(string trackingId) : base(Protocol.googleHttpsBatchUrl, trackingId)
         {
             this.batchSize = 20;
         }
