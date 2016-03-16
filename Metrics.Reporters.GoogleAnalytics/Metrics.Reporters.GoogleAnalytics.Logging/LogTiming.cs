@@ -30,7 +30,7 @@ namespace Metrics.Reporters.GoogleAnalytics.Logging
         }
 
         public LogTiming(Logger log, string actionName)
-            : this(log, actionName, LogLevel.Info)
+            : this(log, actionName, LogLevel.Debug)
         { }
 
         private void Start()

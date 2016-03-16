@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model.MeasurementProtocol.Values;
 using Metrics.Reporters.GoogleAnalytics.Tracker.Model;
+using Metrics.Reporters.GoogleAnalytics.Logging;
 using System.Threading;
+using NLog;
 
 namespace Metrics.Reporters.GoogleAnalytics.Tracker
 {
     public class GoogleAnalyticsTracker
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         private readonly string trackingId;
         private readonly string clientId;
 
@@ -23,15 +27,18 @@ namespace Metrics.Reporters.GoogleAnalytics.Tracker
 
         public async Task Track(IEnumerable<ICanReportToGoogleAnalytics> metrics, CancellationToken cancelToken)
         {
-            var protocol = Protocol.HttpBatch(this.trackingId, this.clientId);
-            foreach (var metric in metrics)
+            using (log.Timing("Post metrics to Google Analytics"))
             {
-                protocol
-                    .WithParameters(metric.Parameters)
-                    .Track(metric.HitType);
+                var protocol = Protocol.HttpBatch(this.trackingId, this.clientId);
+                foreach (var metric in metrics)
+                {
+                    protocol
+                        .WithParameters(metric.Parameters)
+                        .Track(metric.HitType);
 
+                }
+                await HttpProcessor.Post(protocol, cancelToken);
             }
-            await HttpProcessor.Post(protocol, cancelToken);
         }
 
         public async Task Track(IEnumerable<ICanReportToGoogleAnalytics> metrics)

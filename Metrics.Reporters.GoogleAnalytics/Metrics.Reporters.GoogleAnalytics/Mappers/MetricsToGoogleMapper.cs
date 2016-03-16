@@ -4,15 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Metrics.MetricData;
+using NLog;
 using Google = Metrics.Reporters.GoogleAnalytics.Tracker.Model;
+using Metrics.Reporters.GoogleAnalytics.Logging;
 
 namespace Metrics.Reporters.GoogleAnalytics.Mappers
 {
     internal static class MetricsToGoogleMapper
     {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+
         public static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData)
         {
-            return Map(metricData, null);
+            using (log.Timing("Map Metrics.NET Data to Google Analytics Reports"))
+            {
+                return Map(metricData, null);
+            }
         }
 
         private static IEnumerable<Google.ICanReportToGoogleAnalytics> Map(MetricsData metricData, string context)
