@@ -97,6 +97,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Metrics.Reporters.GoogleAnalytics.Logging\Metrics.Reporters.GoogleAnalytics.Logging.csproj">
+      <Project>{742574dd-eba0-4959-9944-a7f26d8ef228}</Project>
+      <Name>Metrics.Reporters.GoogleAnalytics.Logging</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
